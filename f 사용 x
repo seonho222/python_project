@@ -1,0 +1,66 @@
+# 필요한 모듈 임포트
+import random
+
+# 산업경영공학 관련 최신 트렌드와 유망 기업 정보
+industry_trends = {
+    "인공지능(AI)": ["네이버", "카카오", "삼성전자"],
+    "배터리(2차전지)": ["LG에너지솔루션", "SK온", "삼성SDI"],
+    "스마트농업": ["팜에이트", "그린랩스", "엔씽"],
+    "로봇": ["로보티즈", "레인보우로보틱스", "유진로봇"]
+}
+
+# 직무와 필요한 역량 정보
+career_data = [
+    {"직무": "데이터 분석가", "필요역량": ["Python", "SQL", "데이터 시각화"], "추천지표": 0},
+    {"직무": "생산관리자", "필요역량": ["Lean 관리", "공정 최적화", "ERP"], "추천지표": 0},
+    {"직무": "SCM 전문가", "필요역량": ["공급망 분석", "Excel 고급", "물류 최적화"], "추천지표": 0},
+    {"직무": "품질 관리자", "필요역량": ["Six Sigma", "QC 도구", "통계 분석"], "추천지표": 0},
+    {"직무": "경영컨설턴트", "필요역량": ["문제 해결 능력", "데이터 기반 의사결정", "프레젠테이션"], "추천지표": 0},
+]
+
+# 사용자 맞춤 진로 추천 함수
+def career_recommendation():
+    print("안녕하세요, 월천님! 졸업 후 진로를 함께 고민해봅시다.")
+    
+    # 사용자 입력 받기
+    interest = input("가장 흥미를 느끼는 분야를 입력하세요 (예: 데이터 분석, 생산 관리, 공급망 관리 등): ").strip()
+    skills = input("현재 자신 있는 기술을 입력하세요 (쉼표로 구분하여 입력, 예: Python, Lean 관리): ").strip().split(", ")
+    goal = input("가장 중요하게 생각하는 진로 특성을 입력하세요 (예: 안정성, 고연봉, 성장 가능성): ").strip()
+    
+    # 사용자 입력 기반 분석
+    for job in career_data:
+        if interest in job["직무"]:
+            job["추천지표"] += 2  # 관심 분야와 일치 시 높은 점수 부여
+        for skill in skills:
+            if skill in job["필요역량"]:
+                job["추천지표"] += 1  # 기술 일치 시 점수 추가
+        if goal in ["안정성", "고연봉", "성장 가능성"]:
+            job["추천지표"] += random.randint(1, 2)  # 목표와 관련된 점수 추가
+    
+    # 추천 직무 계산
+    recommended_career = max(career_data, key=lambda x: x["추천지표"])
+    
+    print("\n----- 추천 결과 -----")
+    print("추천 직무: " + recommended_career['직무'])
+    print("이 직무를 위해 필요한 역량: " + ', '.join(recommended_career['필요역량']))
+    print("추천 이유: 흥미와 기술 적합도가 높으며, " + goal + " 측면에서 성장 가능성이 높습니다.")
+    
+    # 관련 산업 트렌드 및 유망 기업 정보 제공
+    print("\n----- 관련 산업 트렌드 및 유망 기업 -----")
+    for trend, companies in industry_trends.items():
+        if any(skill in recommended_career['필요역량'] for skill in skills):
+            print("산업 트렌드: " + trend)
+            print("유망 기업: " + ', '.join(companies))
+    
+    # 세부 목표 제시
+    print("\n----- 세부 목표 -----")
+    print("1. 다음 6개월간 다음 역량을 키우세요:")
+    for skill in recommended_career["필요역량"]:
+        print("- " + skill)
+    
+    print("2. 관련 자격증을 준비하세요.")
+    print("3. 포트폴리오를 만들어 인터뷰 준비를 강화하세요.")
+
+# 프로그램 실행
+if __name__ == "__main__":
+    career_recommendation()
